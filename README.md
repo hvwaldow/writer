@@ -20,7 +20,7 @@ That will
 2. Call `entr` to watch that file for changes and in case it changes call `pandoc` to produce a PDF `<docname>.pdf`.
 3. Call evince on `<docname>.pdf`.
 
-Edit <docname>.md with an editor of your choice. Upon saving it a new
+Edit `<docname>.md` with an editor of your choice. Upon saving it a new
 PDF will be automatically produced and evince will reload it so you
 immediately see the result.
 
