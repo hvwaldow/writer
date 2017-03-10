@@ -1,6 +1,6 @@
 # doc
 
-Write shopping lists, memos, notes, research papers and PhD theses with Markdownn in a real editor.
+Write shopping lists, memos, notes, research papers and PhD theses with Markdown in a real editor.
 See the nicely typeset result in real-time.
 
 ## Requirements
