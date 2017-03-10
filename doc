@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# starts simple writing environment for simple .md -> pdf
+
+basename=$1
+
+if [[ ! -f "$basename.md" ]]; then
+    cat > "$basename.md" <<EOF
+---
+fontfamily: libertine
+papersize: A4
+fontsize: 12pt
+documentclass: scrartcl
+geometry: margin=2cm, bottom=3cm
+numbersections: true
+urlcolor: blue
+header-includes:
+- \usepackage{mathabx}
+- \usepackage{soul}
+- \usepackage{hyperref}
+- \usepackage[dvipsnames]{xcolor}
+- \usepackage{scrlayer-scrpage}
+- \usepackage{lastpage}
+# - \usepackage[german]{babel}
+---
+
+\newcommand{\shortauthor}{hvw}
+\newcommand{\headerdate}{YYYY-MM-DD}
+
+\lohead[\small \shortauthor / \headerdate]{\small \shortauthor / \headerdate}
+\cfoot{\thepage\ / \pageref*{LastPage}}
+\pagestyle{scrheadings}
+
+\renewcommand*\thesubsection{\arabic{subsection}}
+
+\title{\Large The Title}
+\maketitle
+\tableofcontents
+EOF
+    echo "created $basename.md"
+fi
+pandoc -t latex -o "$basename.pdf" "$basename.md"
+evince "$basename.pdf" &
+echo "$basename.md" |entr pandoc -t latex -o "$basename.pdf" "$basename.md" -f markdown+escaped_line_breaks+implicit_header_references+fancy_lists+definition_lists+simple_tables+footnotes+header_attributes
