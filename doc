@@ -31,8 +31,6 @@ header-includes:
 \cfoot{\thepage\ / \pageref*{LastPage}}
 \pagestyle{scrheadings}
 
-\renewcommand*\thesubsection{\arabic{subsection}}
-
 \title{\Large The Title}
 \maketitle
 \tableofcontents
