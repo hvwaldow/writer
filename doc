@@ -1,13 +1,12 @@
 #!/bin/bash
 
+#set -x
+set -e
+
 # starts simple writing environment for simple .md -> pdf
 
-basename=$1
-
-if [[ ! -f "$basename.md" ]]; then
-    cat > "$basename.md" <<EOF
+header=$(cat <<EOF
 ---
-fontfamily: libertine
 papersize: A4
 fontsize: 12pt
 documentclass: scrartcl
@@ -15,7 +14,6 @@ geometry: margin=2cm, bottom=3cm
 numbersections: true
 urlcolor: blue
 header-includes:
-- \usepackage{mathabx}
 - \usepackage{soul}
 - \usepackage{hyperref}
 - \usepackage[dvipsnames]{xcolor}
@@ -24,19 +22,30 @@ header-includes:
 # - \usepackage[german]{babel}
 ---
 
+\setmainfont{OpenSans}
+
 \newcommand{\shortauthor}{hvw}
 \newcommand{\headerdate}{YYYY-MM-DD}
+\renewcommand{\thesubsection}{\arabic{subsection}}
 
 \lohead[\small \shortauthor / \headerdate]{\small \shortauthor / \headerdate}
 \cfoot{\thepage\ / \pageref*{LastPage}}
 \pagestyle{scrheadings}
 
-\title{\Large The Title}
-\maketitle
-\tableofcontents
+# The Title {-}
+
 EOF
+)
+
+date=$(date +%F)
+header=$(echo "$header" |sed s/YYYY-MM-DD/$date/g)
+
+basename=$1
+if [[ ! -f "$basename.md" ]]; then
+    echo "$header" > "$basename.md"
     echo "created $basename.md"
 fi
-pandoc -t latex -o "$basename.pdf" "$basename.md"
-evince "$basename.pdf" &
-echo "$basename.md" |entr pandoc -t latex -o "$basename.pdf" "$basename.md" -f markdown+escaped_line_breaks+implicit_header_references+fancy_lists+definition_lists+simple_tables+footnotes+header_attributes
+
+pandoc --pdf-engine=lualatex -t latex -o "$basename.pdf" "$basename.md" && evince "$basename.pdf" &
+echo "$basename.md" |entr pandoc --pdf-engine=lualatex -t latex -o "$basename.pdf" "$basename.md" \
+   -f markdown+escaped_line_breaks+fancy_lists+definition_lists+simple_tables+footnotes+header_attributes
