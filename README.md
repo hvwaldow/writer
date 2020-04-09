@@ -7,16 +7,18 @@ See the nicely typeset result in real-time.
 
 + [`entr`](http://entrproject.org/) installed.
 + [`pandoc`](http://pandoc.org/) installed.
-+ [`LaTeX`](http://www.latex-project.org/) installed.
++ [`LuaTeX`](http://luatex.org/) installed.
 + [`evince`](https://wiki.gnome.org/Apps/Evince) installed.
 
 ## Usage
 
-`doc <docname> &`
+`doc <docname>`
 
 That will
 
-1. Create a file `<docname>.md`.
+1. Create a file `<docname>.md` if it doesn't exist yet. The file will
+   contain some boilerplate LaTeX to set up the page layout, header,
+   footer, fonts. Modify to your taste.
 2. Call `entr` to watch that file for changes and in case it changes call `pandoc` to produce a PDF `<docname>.pdf`.
 3. Call evince on `<docname>.pdf`.
 
