@@ -19,6 +19,7 @@ header-includes:
 - \usepackage[dvipsnames]{xcolor}
 - \usepackage{scrlayer-scrpage}
 - \usepackage{lastpage}
+- \usepackage{fontspec}
 # - \usepackage[german]{babel}
 ---
 
